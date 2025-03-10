@@ -30,7 +30,7 @@ class conexion:
             conn = connect(
                 database=get_secret("DB_NAME"),
                 user="JPONCE",
-                password="123",
+                password="456123",
                 role="RDB$ADMIN",
                 charset="ISO8859_1",
             )
@@ -55,7 +55,7 @@ class conexion:
             conn = connect(
                 database=get_secret("DB_NAME"),
                 user="JPONCE",
-                password="123",
+                password="456123",
                 role="RDB$ADMIN",
                 charset="ISO8859_1",
             )
@@ -80,7 +80,7 @@ class conexion:
             conn = connect(
                 database=get_secret("DB_NAME"),
                 user="JPONCE",
-                password="123",
+                password="456123",
                 role="RDB$ADMIN",
                 charset="ISO8859_1",
             )
@@ -108,7 +108,7 @@ class conexion:
             conn = connect(
                 database=get_secret("DB_NAME"),
                 user="JPONCE",
-                password="123",
+                password="456123",
                 role="RDB$ADMIN",
                 charset="ISO8859_1",
             )
@@ -138,7 +138,7 @@ class conexion:
             conn = connect(
                 database=get_secret("DB_NAME"),
                 user="JPONCE",
-                password="123",
+                password="456123",
                 role="RDB$ADMIN",
                 charset="ISO8859_1",
             )
@@ -165,7 +165,7 @@ class conexion:
             conn = connect(
                 database=get_secret("DB_NAME"),
                 user="JPONCE",
-                password="123",
+                password="456123",
                 role="RDB$ADMIN",
                 charset="ISO8859_1",
             )
