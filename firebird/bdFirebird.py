@@ -25,8 +25,9 @@ def dictfetchall(cursor):
 
 class conexion:
     def consulta(sql):
+        conn = None
+        cursor = None
         try:
-
             conn = connect(
                 database=get_secret("DB_NAME"),
                 user="JPONCE",
@@ -36,43 +37,27 @@ class conexion:
             )
             cursor = conn.cursor()
             cursor.execute(sql)
-            datos = dictfetchall(cursor)
-            cursor.close()
-            conn.commit()
-            conn.close()
+            # Si la consulta es SELECT, obtener los datos
+            if sql.strip().upper().startswith("SELECT"):
+                datos = dictfetchall(cursor)
+            else:
+                conn.commit()  # Confirmar cambios para INSERT, UPDATE, DELETE
+                datos = None  # Estas consultas no devuelven datos
+
+            return datos
+
         except Exception as e:
             error = str(e)
-            print(error)
-            cursor.close()
-            conn.rollback()
-            conn.close()
-            raise DatabaseError({"Base de datos Error": error, "SQL": sql})
-        return datos
-
-    def consultaRollback(sql):
-        try:
-            print(sql)
-            conn = connect(
-                database=get_secret("DB_NAME"),
-                user="JPONCE",
-                password="456123",
-                role="RDB$ADMIN",
-                charset="ISO8859_1",
-            )
-            cursor = conn.cursor()
-            cursor.execute(sql)
-            datos = dictfetchall(cursor)
-            cursor.close()
-            conn.rollback()
-            conn.close()
-        except Exception as e:
-            error = str(e)
-            cursor.close()
-            conn.rollback()
-            conn.close()
+            print("Error en consulta:", error)
+            if conn:
+                conn.rollback()
             raise DatabaseError({"Base de datos Error": error, "SQL": sql})
 
-        return datos
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
 
     def consultaRowCount(sql):
         print(sql)
