@@ -1,17 +1,28 @@
 import asyncio
 import glob
 import os
+import pathlib
 import xml.etree.ElementTree as ET
+from tkinter import Tk
+from tkinter.filedialog import askdirectory
 
 from firebird.bdFirebird import conexion
 
-# carpeta = "./rfc_xml/facturas"
-carpeta = "./rfc_xml/CONSTANCIAS DE INTERESES REALES 2024"
-# Expresión regular para buscar un RFC (Patrón RFC Mexicano)
-RFC_REGEX = r"[A-Z&Ñ]{3,4}\d{6}[A-Z0-9]{3}"
+# Usar para la ruta estatica
+# carpeta = "./rfc_xml/CONSTANCIAS DE INTERESES REALES 2024"
+
 rfc_nofound = []
-# Buscar todos los archivos XML en la carpeta
-archivos_xml = glob.glob(os.path.join(carpeta, "*.xml"))
+
+# Esto es para buscar la carpeta en el explorador
+Tk().withdraw()
+filename = askdirectory(initialdir="C://")
+path = pathlib.Path(filename).absolute()
+new_path = path.as_posix()
+print(path)
+print(new_path)
+
+# Sustitur la varibale new_path o carpeta si es que quieres que sea estatico o que tu selecciones la carpeta
+archivos_xml = glob.glob(os.path.join(new_path, "*.xml"))
 
 
 def extraer_rfc(xml_path):
@@ -66,18 +77,18 @@ async def insertar_dato(rfc_receptor, contrato, nom_archivo):
         print("No se encontró un INTERNO válido para el RFC y contrato proporcionados.")
         rfc_nofound.append(nom_archivo)
         return
-    sql = f"""
-    INSERT INTO WS_DESCARGAS (INTERNO , TIPO, URL_XML, URL_PDF, TITULO, FECHA)
-    VALUES( {interno}, 'CONSTANCIA', 'DESCARGAS/117735823fadae51db091c7d63e60eb0/{nom_archivo}.xml',
-    'DESCARGAS/117735823fadae51db091c7d63e60eb0/{nom_archivo}.pdf',
-    'CONSTANCIA DE INTERESES REALES 2024', CURRENT_DATE)
-    """
     # sql = f"""
     # INSERT INTO WS_DESCARGAS (INTERNO , TIPO, URL_XML, URL_PDF, TITULO, FECHA)
     # VALUES( {interno}, 'CONSTANCIA', 'DESCARGAS/117735823fadae51db091c7d63e60eb0/{nom_archivo}.xml',
     # 'DESCARGAS/117735823fadae51db091c7d63e60eb0/{nom_archivo}.pdf',
     # 'CONSTANCIA DE INTERESES REALES 2024', CURRENT_DATE)
     # """
+    sql = f"""
+    INSERT INTO WS_DESCARGAS (INTERNO , TIPO, URL_XML, URL_PDF, TITULO, FECHA)
+    VALUES( {interno}, 'CONSTANCIA', 'docs/constancias/117735823fadae51db091c7d63e60eb0/{nom_archivo}.xml',
+    'docs/constancias/117735823fadae51db091c7d63e60eb0/{nom_archivo}.pdf',
+    'CONSTANCIA DE INTERESES REALES 2024', CURRENT_DATE)
+    """
     conexion.consulta(sql)
 
 
