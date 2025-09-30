@@ -28,7 +28,7 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, archivo: str):
     pdf = Canvas(buffer, letter)
 
     # pdf.drawImage("static/global_assets/images/Reconocimiento.jpg", 0, 0, 792, 612)
-    pdf.drawImage("Reconocimiento_2025.jpg", 0, 0, 792, 612)
+    pdf.drawImage("Reconocimiento-2025-3.jpg", 0, 0, 792, 612)
 
     # pdfmetrics.registerFont(TTFont("GOTHICB", "static/global_assets/fonts/gothicb.ttf"))
     pdfmetrics.registerFont(TTFont("GOTHICB", "gothicb.ttf"))
@@ -41,14 +41,14 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, archivo: str):
     style4.alignment = TA_CENTER
     texto4 = Paragraph(f"{TIPO} ", style4)
     texto4.wrapOn(pdf, letter[0], letter[1])
-    texto4.drawOn(pdf, -3 * cm, y(8.3 * cm))
+    texto4.drawOn(pdf, -3 * cm, y(7.4 * cm))
 
     # APARTIR DE AQUI FUERON LAS MODIFICACIONES
     # NOMBRE
     style = ParagraphStyle(name="Normal")
     style.fontName = "Helvetica-Bold"
     style.fontSize = 28
-    style.leading = 30
+    style.leading = 37
     style.alignment = TA_CENTER
     # style.textColor = HexColor("#de1682")
     style.textColor = HexColor("#de1682")
@@ -75,7 +75,6 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, archivo: str):
     style2.leading = 20
     style2.textColor = HexColor("#28017e")
     style2.alignment = TA_CENTER
-
     aW = 18 * cm
     aH = 1 * cm
     texto = Paragraph(reconocimiento, style2)
@@ -93,8 +92,8 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, archivo: str):
     pdf.drawImage(
         # "static/global_assets/images/firma_MARIO_ALBERTO_ALVAREZ_MICHAUS.png",
         "firma.png",
-        (letter[0] / 2) - 240,
-        y(575),
+        (letter[0] / 2) - 350,
+        y(560),
         350,
         200,
         mask="auto",
@@ -114,7 +113,7 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, archivo: str):
 
 pdfReconocimiento(
     "ANGÉLICA CECILIA DÍAZ GONZÁLEZ",
-    'POR SU VALIOSA PARTICIPACIÓN EN EL CURSO DE "EVACUACIÓN Y SIMULACRO".',
+    'POR SU VALIOSA PARTICIPACIÓN EN EL CURSO DE "EVACUACIÓN Y SIMULACRO". ',
     "RECONOCIMIENTO",
     "Reconocimiento.pdf",
 )

@@ -34,7 +34,9 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, FECHA: str):
     buffer = io.BytesIO()
     pdf = Canvas(buffer, letter)
 
-    pdf.drawImage("static/global_assets/images/Reconocimiento_2025.jpg", 0, 0, 792, 612)
+    pdf.drawImage(
+        "static/global_assets/images/Reconocimiento-2025-3.jpg", 0, 0, 792, 612
+    )
 
     pdfmetrics.registerFont(TTFont("GOTHICB", "static/global_assets/fonts/gothicb.ttf"))
 
@@ -53,7 +55,7 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, FECHA: str):
     style = ParagraphStyle(name="Normal")
     style.fontName = "Helvetica-Bold"
     style.fontSize = 28
-    style.leading = 30
+    style.leading = 37
     style.alignment = TA_CENTER
     style.textColor = HexColor("#de1682")
     aW = 17.5 * cm
@@ -80,7 +82,7 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, FECHA: str):
     aH = 1 * cm
     texto = Paragraph(reconocimiento, style2)
     ancho_texto, alto_texto = texto.wrapOn(pdf, aW, aH)
-    texto.drawOn(pdf, cm * 2, y(14 * cm + alto_texto))
+    texto.drawOn(pdf, cm * 2, y(13 * cm + alto_texto))
 
     # FECHA = datetime.strptime(FECHA,"YYYY-mm-dd").strftime("dd/mm/YYYY")
     fecha = f"AGUASCALIENTES, AGS {current_date_format2(datetime.strptime(FECHA,"%Y-%m-%d")).upper()}"
@@ -93,8 +95,8 @@ def pdfReconocimiento(NOMBRE: str, CAPACITACION: str, TIPO: str, FECHA: str):
 
     pdf.drawImage(
         "static/global_assets/images/firma_MARIO_ALBERTO_ALVAREZ_MICHAUS.png",
-        (letter[0] / 2) - 240,
-        y(575),
+        (letter[0] / 2) - 350,
+        y(560),
         350,
         200,
         mask="auto",

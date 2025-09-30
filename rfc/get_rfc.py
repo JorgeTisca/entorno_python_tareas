@@ -77,12 +77,7 @@ async def insertar_dato(rfc_receptor, contrato, nom_archivo):
         print("No se encontró un INTERNO válido para el RFC y contrato proporcionados.")
         rfc_nofound.append(nom_archivo)
         return
-    # sql = f"""
-    # INSERT INTO WS_DESCARGAS (INTERNO , TIPO, URL_XML, URL_PDF, TITULO, FECHA)
-    # VALUES( {interno}, 'CONSTANCIA', 'DESCARGAS/117735823fadae51db091c7d63e60eb0/{nom_archivo}.xml',
-    # 'DESCARGAS/117735823fadae51db091c7d63e60eb0/{nom_archivo}.pdf',
-    # 'CONSTANCIA DE INTERESES REALES 2024', CURRENT_DATE)
-    # """
+
     sql = f"""
     INSERT INTO WS_DESCARGAS (INTERNO , TIPO, URL_XML, URL_PDF, TITULO, FECHA)
     VALUES( {interno}, 'CONSTANCIA', 'uploads/constancias/117735823fadae51db091c7d63e60eb0/{nom_archivo}.xml',
@@ -99,7 +94,7 @@ async def procesar_archivos():
         nom_archivo = os.path.basename(xml).split(".")[0]
         print(f"Archivo: {nom_archivo}")
         print(f"RFC Receptor: {rfc_receptor}, Num Contrato: {contrato}")
-        await insertar_dato(rfc_receptor, contrato, nom_archivo)
+        # await insertar_dato(rfc_receptor, contrato, nom_archivo)
     print(f"archivos con RFC incorrecto--- {rfc_nofound}")
 
 
