@@ -1,8 +1,8 @@
 import json
 
-from firebird.base.types import Error
-from firebird.driver import connect, driver_config
-from firebird.driver.types import DatabaseError
+from firebird_db.base.types import Error
+from firebird_db.driver import connect, driver_config
+from firebird_db.driver.types import DatabaseError
 
 driver_config.server_defaults.host.value = "10.1.18.203"
 

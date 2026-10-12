@@ -5,7 +5,7 @@ import os
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
-from firebird.bdFirebird import conexion
+from firebird_db.bdFirebird import conexion
 
 # import pdfplumber
 

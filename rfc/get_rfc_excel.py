@@ -2,7 +2,7 @@ import asyncio
 
 import pandas as pd
 
-from firebird.bdFirebird import conexion
+from firebird_db.bdFirebird import conexion
 
 rfc_nofound = []
 archivo_excel = "./rfc/REPORTE INTEGRAL DE CONSTANCIAS DE INTERESES REALES 2024.xlsx"

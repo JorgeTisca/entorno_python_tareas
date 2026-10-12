@@ -1,0 +1,178 @@
+import json
+import os
+
+# Importaciones oficiales de la librería firebird-driver
+from firebird.driver import connect, driver_config
+from firebird.driver.types import DatabaseError
+
+driver_config.server_defaults.host.value = "10.1.18.203"
+
+# Ruta absoluta automática: encuentra secret.json en ESTA misma carpeta
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SECRET_PATH = os.path.join(BASE_DIR, "secret.json")
+
+with open(SECRET_PATH) as f:
+    secret = json.loads(f.read())
+
+
+def get_secret(secret_name, secrets=secret):
+    try:
+        return secrets[secret_name]
+    except Exception:
+        print(f"Clave {secret_name} no encontrada")
+
+
+def dictfetchall(cursor):
+    columns = [col[0] for col in cursor.description]
+    return [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+
+class conexion:
+
+    @staticmethod
+    def consulta(sql):
+        conn = None
+        cursor = None
+        try:
+            conn = connect(
+                database=get_secret("DB_NAME"),
+                user="JPONCE",
+                password="456123",
+                role="RDB$ADMIN",
+                charset="ISO8859_1",
+            )
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            if sql.strip().upper().startswith("SELECT"):
+                datos = dictfetchall(cursor)
+            else:
+                conn.commit()
+                datos = None
+
+            return datos
+
+        except Exception as e:
+            error = str(e)
+            print("Error en consulta:", error)
+            if conn:
+                conn.rollback()
+            raise DatabaseError({"Base de datos Error": error, "SQL": sql})
+
+        finally:
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
+    @staticmethod
+    def consultaRowCount(sql):
+        print(sql)
+        try:
+            conn = connect(
+                database=get_secret("DB_NAME"),
+                user="JPONCE",
+                password="456123",
+                role="RDB$ADMIN",
+                charset="ISO8859_1",
+            )
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            datos = dictfetchall(cursor)
+            cantDatos = cursor.rowcount
+            cursor.close()
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            error = str(e)
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.rollback()
+                conn.close()
+            raise DatabaseError({"Base de datos Error": error, "SQL": sql})
+        return datos, cantDatos
+
+    @staticmethod
+    def callproc(callproc):
+        try:
+            conn = connect(
+                database=get_secret("DB_NAME"),
+                user="JPONCE",
+                password="456123",
+                role="RDB$ADMIN",
+                charset="ISO8859_1",
+            )
+            cursor = conn.cursor()
+            print(callproc)
+            cursor.callproc(callproc[0], callproc[1])
+            datos = dictfetchall(cursor)
+            cursor.close()
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            error = str(e)
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.rollback()
+                conn.close()
+            raise DatabaseError(
+                {"Base de datos Error": error, "PROCEDIMIENTO Y PARAMETROS": callproc}
+            )
+        return datos
+
+    @staticmethod
+    def callprocRollback(callproc):
+        try:
+            conn = connect(
+                database=get_secret("DB_NAME"),
+                user="JPONCE",
+                password="456123",
+                role="RDB$ADMIN",
+                charset="ISO8859_1",
+            )
+            cursor = conn.cursor()
+            print(callproc)
+            cursor.callproc(callproc[0], callproc[1])
+            datos = dictfetchall(cursor)
+            cursor.close()
+            conn.rollback()
+            conn.close()
+        except Exception as e:
+            error = str(e)
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.rollback()
+                conn.close()
+            raise DatabaseError(
+                {"Base de datos Error": error, "PROCEDIMIENTO Y PARAMETROS": callproc}
+            )
+        return datos
+
+    @staticmethod
+    def rowcount(sql):
+        print(sql)
+        try:
+            conn = connect(
+                database=get_secret("DB_NAME"),
+                user="JPONCE",
+                password="456123",
+                role="RDB$ADMIN",
+                charset="ISO8859_1",
+            )
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            datos = cursor.rowcount
+            cursor.close()
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            error = str(e)
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.rollback()
+                conn.close()
+            raise DatabaseError({"Base de datos Error": error, "SQL": sql})
+        return datos

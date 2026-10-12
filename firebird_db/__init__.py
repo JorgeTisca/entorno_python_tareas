@@ -1,0 +1,1 @@
+from .bdFirebird import conexion

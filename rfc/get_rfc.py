@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
 
-from firebird.bdFirebird import conexion
+from firebird_db.bdFirebird import conexion
 
 # Usar para la ruta estatica
 # carpeta = "./rfc_xml/CONSTANCIAS DE INTERESES REALES 2024"

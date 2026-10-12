@@ -1,4 +1,4 @@
-from firebird.bdFirebird import conexion
+from firebird_db.bdFirebird import conexion
 
 periodo = "2124"
 
